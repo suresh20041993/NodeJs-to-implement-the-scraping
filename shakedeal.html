@@ -1,0 +1,113 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head runat="server">
+  <title></title>
+  
+</head>
+
+<body  onload="getCat()">
+  <form id="form1" runat="server">
+    <div>
+      <h3><ul>Category List</ul></h3>
+      <!-- <input type="button" onclick="getCatinfo();" value="Category Detail" /> -->
+      <div id="catlist"></div>
+    </div>
+  </form>
+  <script type="text/javascript">
+  function getCatinfo(data) {
+      var apiUrl = ' http://127.0.0.1:8081/api/productlist';
+      var list=fetch(apiUrl,{
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error "https://www.shakedeal.com/abrasives-lp1"
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify({url:data}) // body data type must match "Content-Type" header
+  }).then(response => {
+        return response.json();
+      }).then(data => {
+        console.log(data);
+        const contentDiv = document.getElementById("catlist");
+        contentDiv.innerHTML="";
+        //    "categories": "Abrasives",
+        // "categories_url": "https://www.shakedeal.com/abrasives-lp1"
+        data.forEach(item => {
+          var v = document.createElement('div');
+          
+          v.style["padding"] = "5px";
+          v.style["font-size"] = "15px";
+          document.getElementById('catlist').appendChild(v);
+          var brand = document.createElement('div');
+          brand.innerHTML=item.brand;
+          v.appendChild(brand);
+
+          var price = document.createElement('div');
+          price.innerHTML=item.price;
+          v.appendChild(price);
+
+          var product_image = document.createElement('img');
+          product_image.src=item.product_image;
+          v.appendChild(product_image);
+
+          var product_name = document.createElement('div');
+          product_name.innerHTML=item.product_name;
+          v.appendChild(product_name);
+
+          var product_url = document.createElement('href');
+          product_url.src=item.product_url;
+          v.appendChild(product_url);
+
+
+          var hr = document.createElement('hr');
+          document.getElementById('catlist').appendChild(hr);
+        });
+      }).catch(err => {
+      });
+    }</script>
+  <script type="text/javascript">
+    function getCat() {
+      var apiUrl = 'http://127.0.0.1:8081/api/categorylist';
+      var list=fetch(apiUrl).then(response => {
+        return response.json();
+      }).then(data => {
+        console.log(data);
+        const contentDiv = document.getElementById("catlist");
+        contentDiv.innerHTML="";
+        // "brand": "Aegon",
+        // "price": "₹692",
+        // "product_image": "https://www.shakedeal.com/design/themes/estore_v1mv/media/images/lazy-grey/2.jpg",
+        // "product_name": "Aegon A 60R BF - 4 inch, Pack of 50 Double Net Green Cutting Wheel",
+        // "product_url": "https://www.shakedeal.com/aegon-a-60r-bf-4-inch-cutting-wheel-dp1",
+        // "product_mrp": "₹692"
+        data.forEach(item => {
+          var v = document.createElement('div');
+          v.innerHTML=item.categories;
+          v.style["padding"] = "5px";
+          v.style["font-size"] = "15px";
+          v.onclick = function() { // Note this is a function
+            getCatinfo(item.categories_url);
+          };
+          //v.addEventListener("click", getCatinfo(), false).call();
+          document.getElementById('catlist').appendChild(v);
+          
+
+
+
+          var hr = document.createElement('hr');
+          document.getElementById('catlist').appendChild(hr);
+          //v.onclick=getCatinfo(item);
+        });
+      }).catch(err => {
+      });
+    }
+
+    
+    </script>
+</body>
+
+</html>

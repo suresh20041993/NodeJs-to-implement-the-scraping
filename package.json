@@ -1,0 +1,22 @@
+{
+  "name": "ems-mean1",
+  "version": "1.0.0",
+  "description": "simple mean apps",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "sikandar abu rakib",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "body-parser": "^1.17.1",
+    "cheerio": "^1.0.0-rc.3",
+    "cors": "^2.8.3",
+    "express": "^4.15.2",
+    "mongoose": "^4.9.1",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {}
+}
