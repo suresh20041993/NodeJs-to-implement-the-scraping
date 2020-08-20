@@ -1,7 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var Employee = require('./model');
-var constant = require("./constant.js");
 var request = require('request');
 const axios = require('axios');
 const cheerio = require('cheerio');
@@ -9,7 +7,6 @@ const cheerio = require('cheerio');
 
 router.get('/categorylist', function(req, res){
 
-    console.log("categorylist");
     const url = 'https://www.shakedeal.com/all-categories';
   
   axios(url)
@@ -38,11 +35,7 @@ router.get('/categorylist', function(req, res){
 
  router.post('/productlist', function(req, res){
 
-    // const url = 'https://www.shakedeal.com/abrasives-lp1';
-  
-  
     var obj = req.body;
-    console.log("-----------------------",obj);
     const url = req.body.url;
   
     axios(url)
@@ -60,9 +53,6 @@ router.get('/categorylist', function(req, res){
           const product_url= $(this).find(' > div > form .top-part  > a ').attr('href');
           const product_mrp = $(this).find(' > div > form .top-part .prices-ratting .prices .new-price > span .ty-price .sd_price').text();
     
-          // const playerName = $(this).find('.playerName > strong').text();
-          // const nationality = $(this).find('.playerCountry').text();
-          // const goals = $(this).find('.mainStat').text();
     
           productList.push({
             brand,
@@ -71,13 +61,11 @@ router.get('/categorylist', function(req, res){
             product_name,
             product_url,
             product_mrp
-            // name: playerName,
-            // nationality,
-            // goals,
+
           });
         });
     
-        console.log(productList);
+
         res.json(productList);
       })
       .catch(console.error);
